@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Snake Ladder Game</title>
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        .game-container {
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            position: relative;
+        }
+
+        .game-table {
+            width: 100%;
+            height: 100%;
+            border-collapse: collapse;
+        }
+
+        .game-table td {
+            border: 1px solid black;
+            text-align: center;
+            font-size: 25px;
+            font-weight: bold;
+        }
+
+        .game-table tr:nth-child(odd) td:nth-child(odd) {
+            background: rgba(168, 21, 21, 0.658);
+            color: white;
+        }
+
+        .game-table tr:nth-child(even) td:nth-child(even) {
+            background: rgba(168, 21, 21, 0.658);
+            color: white;
+        }
+
+        .game-table tr:nth-child(odd) td:nth-child(even) {
+            background: white;
+        }
+
+        .game-table tr:nth-child(even) td:nth-child(odd) {
+            background: white;
+        }
+
+        .green-ladder {
+            position: absolute;
+            bottom: 30px;
+            left: 118px;
+            height: 220px;
+            width: 50px;
+            rotate: 130deg;
+            opacity: 0.6;
+        }
+
+        .yellow-ladder {
+            position: absolute;
+            bottom: 130px;
+            left: 258px;
+            height: 270px;
+            width: 50px;
+            rotate: 160deg;
+            opacity: 0.6;
+        }
+
+        .green-snake {
+            position: absolute;
+            bottom: 80px;
+            left: 258px;
+            height: 300px;
+            width: 100px;
+            rotate: 62deg;
+            opacity: 0.6;
+        }
+
+        .pink-snake {
+            position: absolute;
+            bottom: 30px;
+            left: 188px;
+            height: 405px;
+            width: 100px;
+            rotate: 20deg;
+            opacity: 0.6;
+        }
+
+        .coin {
+            background: rgba(18, 18, 222, 0.799);
+            box-shadow: 0px 0px 5px rgb(52, 41, 41);
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            position: absolute;
+            left: -68px;
+            bottom: 20px;
+            transition: all 600ms;
+        }
+
+        .dice-section {
+            display: flex;
+            justify-content: center;
+            margin-top: 50px;
+        }
+
+        #dice {
+            width: 60px;
+            height: 60px;
+            border: none;
+            box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.4);
+            border-radius: 6px;
+            font-size: 28px;
+            font-weight: bold;
+            color: white;
+            background: rgb(242, 13, 189);
+            rotate: 360deg;
+            transition: all 300ms;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="game-container">
+        <div style="width: 450px; height: 450px; position: relative; display: flex; justify-content: end;">
+            <table class="game-table">
+                <tr>
+                    <td>21</td>
+                    <td>22</td>
+                    <td>23</td>
+                    <td>24</td>
+                    <td>25</td>
+                </tr>
+                <tr>
+                    <td>20</td>
+                    <td>19</td>
+                    <td>18</td>
+                    <td>17</td>
+                    <td>16</td>
+                </tr>
+                <tr>
+                    <td>11</td>
+                    <td>12</td>
+                    <td>13</td>
+                    <td>14</td>
+                    <td>15</td>
+                </tr>
+                <tr>
+                    <td>10</td>
+                    <td>9</td>
+                    <td>8</td>
+                    <td>7</td>
+                    <td>6</td>
+                </tr>
+                <tr>
+                    <td>1</td>
+                    <td>2</td>
+                    <td>3</td>
+                    <td>4</td>
+                    <td>5</td>
+                </tr>
+            </table>
+            <img class="green-ladder" src="./assets/images/green-ladder.png">
+            <img class="yellow-ladder" src="./assets/images/yellow-ladder.png">
+            <img class="green-snake" src="./assets/images/green-snake.png">
+            <img class="pink-snake" src="./assets/images/pink-snake.png">
+            <div class="coin" id="dice-coin"></div>
+        </div>
+    </div>
+    <div class="dice-section">
+        <button id="dice" onclick="rollDice(this)">6</button>
+    </div>
+    <script>
+        var starting_point = 0;
+        var ending_point = 25;
+        var current_point = starting_point;
+        var row_size = 5;
+        var ladder_obj = {
+            3: 11,
+            7: 23
+        }
+        var snake_obj = {
+            16: 8,
+            24: 2
+        }
+        var left_start = -68;
+        var bottom_start = 20;
+        var moving_diff = 90;
+
+        function rollDice(e, dice_number) {
+            dice_number = dice_number || Math.ceil(Math.random() * 6);
+            e = e || document.getElementById('dice')
+            e.style.rotate = '0deg';
+            e.style.transition = 'all 0ms'
+            var dice_coin = document.getElementById('dice-coin');
+            setTimeout(() => {
+                e.innerHTML = dice_number
+                e.style.rotate = '360deg';
+                e.style.transition = 'all 300ms'
+
+                if (dice_number == 6 && current_point == starting_point) {
+                    current_point = 1;
+                    positionSetter(0, current_point, "tuktuk")
+                    return;
+                } else if (current_point == starting_point && dice_number != 6) {
+                    return;
+                }
+
+                if (current_point + dice_number > ending_point) {
+                    return;
+                }
+
+                current_point += dice_number;
+
+                if (current_point in ladder_obj) {
+                    var temp_c = current_point;
+                    (async function () {
+                        await positionSetter(temp_c - dice_number, temp_c, "tuktuk")
+                        await positionSetter(temp_c, ladder_obj[temp_c])
+                    })()
+                    current_point = ladder_obj[current_point];
+                    return;
+                }
+
+                if (current_point in snake_obj) {
+                    var temp_c = current_point;
+                    (async function () {
+                        await positionSetter(temp_c - dice_number, temp_c, "tuktuk")
+                        await positionSetter(temp_c, snake_obj[temp_c])
+                    })()
+                    current_point = snake_obj[current_point]
+                    return;
+                }
+
+                if (current_point == 25) {
+                    positionSetter(current_point - dice_number, 25, "tuktuk")
+                    current_point = starting_point
+                    return;
+                }
+
+
+                positionSetter(current_point - dice_number, current_point, "tuktuk")
+
+            }, 600);
+        }
+
+        function bottomFinder(current_point) {
+            return current_point % row_size != 0 ?
+                bottom_start + (moving_diff * Math.floor(current_point / row_size))
+                : bottom_start + (moving_diff * (Math.floor(current_point / row_size) - 1));
+        }
+
+        function leftFinder(current_point) {
+            if (current_point % row_size == 0 && Math.floor(current_point / row_size) % 2 != 0) {
+                return left_start + moving_diff * row_size
+            } else if (current_point % row_size == 0 && Math.floor(current_point / row_size) % 2 == 0) {
+                return left_start + moving_diff * 1
+            } else if (Math.floor(current_point / row_size) % 2 == 0) {
+                return left_start + (moving_diff * (current_point % row_size))
+            } else {
+                return left_start + (moving_diff * (row_size - (current_point % row_size) + 1));
+            }
+        }
+
+        async function positionSetter(start, end, type) {
+            var dice_coin = document.getElementById('dice-coin');
+            if (type != "tuktuk") {
+                await new Promise((res) => {
+                    setTimeout(() => {
+                        dice_coin.style.left = leftFinder(end) + "px"
+                        dice_coin.style.bottom = bottomFinder(end) + "px"
+                        res()
+                    }, 600);
+                });
+            } else {
+                for (var i = end > start ? start + 1 : start; end > start ? i <= end : i >= end; end > start ? i++ : i--) {
+                    await new Promise((res) => {
+                        setTimeout(() => {
+                            dice_coin.style.left = leftFinder(i) + "px"
+                            dice_coin.style.bottom = bottomFinder(i) + "px"
+                            res()
+                        }, 600);
+                    });
+                }
+            }
+        }
+
+
+
+
+    </script>
+
+    
+    <a style="display: flex; justify-content: center;" href="https://www.instagram.com/tech_tinker_?igsh=MXI3cnJ3N21uMmlhcw==" >tech_tinker (click here)</a>
+</body>
+
+</html>
+
+
