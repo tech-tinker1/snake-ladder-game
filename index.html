@@ -21,7 +21,7 @@
             bottom: 0;
             right: 0;
             top: 0;
-            background-color: rgba(0, 0, 0, 0.7);
+            background-color: rgb(237, 233, 240);
         }
         
         * {
@@ -42,31 +42,32 @@
         }
 
         .game-table td {
-            border: 1px solid black;
+            border: 1px solid rgb(12, 12, 12);
             text-align: center;
             font-size: 1.5rem;
             font-weight: bold;
         }
 
         .game-table tr:nth-child(odd) td:nth-child(odd) {
-            background: rgba(168, 21, 21, 1);
-            color: white;
+            background: rgb(211, 194, 38);
+            color: rgb(8, 8, 8);
         }
 
         .game-table tr:nth-child(even) td:nth-child(even) {
-            background: rgba(168, 21, 21, 1);
-            color: white;
+            background: rgb(36, 207, 212);
+            color: rgb(10, 9, 9);
         }
 
         .game-table tr:nth-child(odd) td:nth-child(even) {
-            background: white;
+            background: rgb(211, 97, 177);
         }
 
         .game-table tr:nth-child(even) td:nth-child(odd) {
-            background: white;
+            background: rgb(58, 137, 189);
         }
 
-        .green-ladder {
+        
+        .green-ladder { 
             position: absolute;
             bottom: 14.875rem;
             left: 27.375rem;
@@ -75,42 +76,77 @@
             rotate: 130deg;
             opacity: 1.0;
         }
-
-        .yellow-ladder {
+            
+        .green-ladder-two { 
             position: absolute;
-            bottom: 10.125rem;
-            left: 13.9rem;
-            height: 25.5rem;
-            width: 4.125rem;
-            rotate: 150deg;
-            opacity: 1.6;
+            bottom: 2rem;
+            left: 7rem;
+            height: 16rem;
+            rotate: 160deg;
+            width: 3.700rem;
+            opacity: 1.0;
         }
 
         .green-snake {
-            position:absolute;
-            bottom: 3rem;
-            left: 25.9rem;
-            height: 28.75rem;
-            width: 10.25rem;
-            rotate: 40deg;
-            opacity: 2;
+            position: absolute;
+            bottom: 30rem;
+            left: 33.300rem;
+            height: 17.50rem;
+            rotate: 41.6deg;
+            opacity: 1.0;
+        }
+
+        .green-snake-two {
+            position: absolute;
+            bottom: rem;
+            left: 4.300rem;
+            height: 28.50rem;
+            rotate: 23deg;
+            opacity: 1.0
+        }
+        
+        .yellow-ladder {
+            position: absolute;
+            bottom: 9rem;
+            left: 14.5rem;
+            height: 25.3rem;
+            width: 4.8rem;
+            rotate: 150deg;
+            opacity: 1.0;
+        }
+
+        .yellow-ladder-two {
+            position: absolute;
+            bottom: 2.300rem;
+            left: 34rem;
+            height: 20rem;
+            width: 4.125rem;
+            rotate: 1deg;
+            opacity: 1.0;
         }
 
         .pink-snake {
             position: absolute;
-            bottom: 14.875rem;
-            left: 19.75rem;
-            height: 35.3125rem;
+            bottom: 4rem;
+            left: 35.75rem;
+            height: 20rem;
+            rotate: 10deg;
+            opacity: 1.0;
+        }
+        .pink-snake-two {
+            position: absolute;
+            bottom: 0rem;
+            left: 16.75rem;
+            height: 19.3125rem;
             width: 10.25rem;
             rotate: 20deg;
-            opacity: 2.6;
+            opacity: 1.0;
         }
-
         .coin {
-            background: rgba(18, 222, 62, 0.799);
+            background: rgba(99, 240, 18, 0.799);
             box-shadow: 0px 0px 5px rgb(52, 41, 41);
-            border: 2px solid white;
-            outline: 5px solid rgba(18, 222, 62, 0.799);
+            border: 2px solid rgb(150, 24, 24);
+            outline: 5px solid rgb(236, 11, 11);
             width: 2.8rem;
             height: 2.8rem;
             border-radius: 50%;
@@ -123,7 +159,7 @@
         .dice-section {
             display: flex;
             justify-content: center;
-            margin-top: 3.125rem;
+            margin-top: 10.125rem;
         }
 
         #dice {
@@ -132,10 +168,10 @@
             border: none;
             box-shadow: 0px 0px 40px rgba(0, 0, 0, 0.4);
             border-radius: 6px;
-            font-size: 1.75rem;
+            font-size: 2.00rem;
             font-weight: bold;
-            color: white;
-            background: rgb(242, 13, 189);
+            color: rgb(57, 30, 209);
+            background: rgb(150, 14, 177);
             rotate: 360deg;
             transition: all 300ms;
         }
@@ -267,10 +303,15 @@
                     <td>10</td>
                 </tr>
             </table>
+           
             <img class="green-ladder" src="./assets/images/green-ladder.png">
+            <img class="green-ladder-two" src="./assets/images/green-ladder.png">
+            <img class="yellow-ladder-two" src="./assets/images/yellow-ladder.png">
             <img class="yellow-ladder" src="./assets/images/yellow-ladder.png">
             <img class="green-snake" src="./assets/images/green-snake.png">
+            <img class="green-snake-two" src="./assets/images/green-snake.png">
             <img class="pink-snake" src="./assets/images/pink-snake.png">
+            <img class="pink-snake-two" src="./assets/images/pink-snake.png">
             <div class="coin" id="dice-coin"></div>
         </div>
     </div>
@@ -283,12 +324,16 @@
         var current_point = starting_point;
         var row_size = 10;
         var ladder_obj = {
+            8: 48,
             25:63,
-            49: 84
+            49: 84,
+            3: 39,
         }
         var snake_obj = {
-            53:16,
-            94: 37,
+            92:68,
+            98: 43,
+            50: 13,
+            35: 4,
         }
         var left_start = -3.81;
         var bottom_start = 1.25;
